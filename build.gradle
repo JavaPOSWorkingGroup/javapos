@@ -1,0 +1,97 @@
+///////////////////////////////////////////////////////////////////////////////
+// Build Script for building aggregated JavaPOS library from 
+// JavaPOS Contracts, JavaPOS Controls, and JCL libraries
+// 
+// Author: denis.kuniss@wincor-nixdorf.com
+///////////////////////////////////////////////////////////////////////////////
+
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'maven'
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.11'
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Names and Versions
+///////////////////////////////////////////////////////////////////////////////
+
+def artifactName = 'javapos'
+def groupId='org.javapos'
+def uposVersion = '1.6'
+def version="${uposVersion}.0" // the last part after dot is the build/release version
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Build Dependencies
+///////////////////////////////////////////////////////////////////////////////
+
+repositories {
+    maven {
+        url "file:$localTestFileRepositoryDir"
+    }
+    jcenter()
+}
+
+configurations {
+	javaposProjects
+	all {
+		resolutionStrategy {
+			cacheDynamicVersionsFor 0, 'seconds' // check for updates every build, do not cache artifacts specified with "+"
+		}
+	}
+}
+
+dependencies {
+	javaposProjects ("org.javapos:javapos-contracts:$uposVersion.+") { transitive = false } 
+	javaposProjects ("org.javapos:javapos-controls:$uposVersion.+") { transitive = false }
+	javaposProjects ("org.javapos:jcl:2.0.0") { transitive = false }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Build Tasks
+///////////////////////////////////////////////////////////////////////////////
+
+jar {
+	baseName = artifactName
+	manifest {
+        attributes('Specification-Title': 'UnifiedPOS Standard',
+				   'Specification-Vendor': 'UnifiedPOS Committee',
+                   'Specification-Version': uposVersion,
+                   'Implementation-Title': 'JavaPOS Library (Contracts, Controls, JCL)',
+				   'Implementation-Vendor': 'github.com/JavaPOSWorkingGroup',
+                   'Implementation-Version': version)
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+	configurations.javaposProjects.each {
+		from(zipTree(it)) {
+			exclude 'META-INF/**'
+		}
+	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Artifact Upload
+///////////////////////////////////////////////////////////////////////////////
+
+artifacts {
+	archives jar
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file:$localTestFileRepositoryDir")
+            pom.artifactId = artifactName
+            pom.groupId = groupId
+            pom.version = version
+        }
+    }
+}
