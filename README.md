@@ -17,7 +17,7 @@ When migrating the source to GitHub it turned out that both original projects ha
 
 This is a awkward circumstance for two reasons:
 
-1. When populating libraries to maven.org and bintray.com the dependencies are registerd too and may be used for dependency resolving mechanisms by client build mechanims.
+1. When populating libraries to maven.org and bintray.com the dependencies are registered too and may be used for dependency resolving mechanisms by client build mechanims.
 
 2. Both projects are not able to be build from the scratch without an bootstrap mechanism (where a part from the first or second project is build first to satisfy the dependency requirements from the other) which makes it hard to build theses projects on continues integration services like https://travis-ci.org.
 
@@ -25,13 +25,13 @@ This is a awkward circumstance for two reasons:
 
 As a solution to that the original code has been rearranged into 3 different projects:
 * [javapos-contracts](https://github.com/JavaPOSWorkingGroup/javapos-contracts)
-  * hosts the JavaPOS device service interface, data type and constant sources; in particular `jpos.*Const`, `jpos.events.*`, `jpos.services.*`
+  * hosts the JavaPOS device service and control interfaces, data types and constant sources; in particular `jpos.*Const`, `jpos.events.*`, `jpos.services.*`, `jpos.*Control1*`
   * additionally it contains the interface type `jpos.loader.JposServiceInstance` from the original JavaPOS Config Loader project as this is later on needed by the JavaPOS device controls
 * [javapos-config-loader](https://github.com/JavaPOSWorkingGroup/javapos-config-loader)
   * hosts the JavaPOS Config Loader sources as loaded from the original project except for the interface type `jpos.loader.JposServiceInstance`
   * depends on the new JavaPOS Contracts project
 * [javapos-controls](https://github.com/JavaPOSWorkingGroup/javapos-controls)
-  * hosts the JavaPOS device control sources
+  * hosts the JavaPOS device control sources; a reference implementation
   * depends on the new JavaPOS Contracts project and the new JavaPOS Config Loader project
 
 In that way no circular dependency is anymore in the independant source projects.
@@ -41,7 +41,7 @@ In that way no circular dependency is anymore in the independant source projects
 Furthermore we will get more flexibility on dependency management:
 * the jar library built from [javapos-contracts](https://github.com/JavaPOSWorkingGroup/javapos-contracts) project may be used by JavaPOS device service implementors during implementation tasks without depending on the JavaPOS device control library and the JCL library
 * software vendors providing their own JavaPOS device control implementations may deploy the [JavaPOS contracts library](https://github.com/JavaPOSWorkingGroup/javapos-contracts) and [JCL library](https://github.com/JavaPOSWorkingGroup/javapos-config-loader) only, substituting the reference implementation of the JavaPOS device control library by their own implementation
-* application vendors and integrators may use libraries built from those single projects in a set or using the aggregated library built from this project for easier deployment
+* application vendors and integrators may use libraries built from those single projects in a set or using the aggregated library built from this project here for easier deployment
 
 ## Separated JCL Editor Project
 
