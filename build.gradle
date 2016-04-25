@@ -8,7 +8,8 @@
 plugins {
 	id 'java'
 	id 'eclipse'
-	id 'maven'
+//  id 'maven' // comment this in and the next line out for populating to a local Maven repository for testing purposes
+    id 'com.github.oehme.sobula.bintray-release' version '0.6.7'
 }
 
 task wrapper(type: Wrapper) {
@@ -23,6 +24,7 @@ task wrapper(type: Wrapper) {
 def artifactName = 'javapos'
 def groupId='org.javapos'
 def uposVersion = '1.6'
+def jclVersion = '2.2.0'
 def version="${uposVersion}.0" // the last part after dot is the build/release version
 
 
@@ -31,31 +33,38 @@ def version="${uposVersion}.0" // the last part after dot is the build/release v
 ///////////////////////////////////////////////////////////////////////////////
 
 repositories {
-    maven {
-        url "file:$localTestFileRepositoryDir"
-    }
     jcenter()
+    if (project.plugins.hasPlugin('maven')) 
+    { // evaluates only at development environment, not at travis-ci.org
+	    maven {
+	        url "file:$localTestFileRepositoryDir"
+	    }
+	}
 }
 
 configurations {
 	javaposProjects
-	all {
-		resolutionStrategy {
-			cacheDynamicVersionsFor 0, 'seconds' // check for updates every build, do not cache artifacts specified with "+"
-		}
-	}
 }
 
 dependencies {
-	javaposProjects ("org.javapos:javapos-contracts:$uposVersion.+") { transitive = false } 
-	javaposProjects ("org.javapos:javapos-controls:$uposVersion.+") { transitive = false }
-	javaposProjects ("org.javapos:jcl:2.0.0") { transitive = false }
+	javaposProjects ("org.javapos:javapos-contracts:${uposVersion}.0") { transitive = false } 
+	javaposProjects ("org.javapos:javapos-controls:${uposVersion}.0") { transitive = false }
+	javaposProjects ("org.javapos:javapos-config-loader:$jclVersion") { transitive = false }
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // Build Tasks
 ///////////////////////////////////////////////////////////////////////////////
+
+sourceCompatibility = '1.6' // this is only for having a common JDK description across any development machine; we do not compuke in this projec
+
+// this is to request the best matching JDK (currently 1.6) for building jars in Eclipse 
+// it is recommended to install a JDK which matches best to avoid applying APIs methods and types not available in specified JVM compatibility version  
+eclipse.classpath {
+	containers.clear()
+	containers "org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-$sourceCompatibility"
+}
 
 jar {
 	baseName = artifactName
@@ -81,17 +90,40 @@ jar {
 // Artifact Upload
 ///////////////////////////////////////////////////////////////////////////////
 
-artifacts {
-	archives jar
-}
+if (project.plugins.hasPlugin('com.github.oehme.sobula.bintray-release')) 
+{ // evaluates only on travis-ci.org for releasing
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "file:$localTestFileRepositoryDir")
-            pom.artifactId = artifactName
-            pom.groupId = groupId
-            pom.version = version
+    group = "org.javapos"
+    description = "JavaPOS Library"
+     
+    contacts {
+        "builder@javapos.org" {
+            moniker "JavaPOS Working Group"
+            roles "owner"
+            github "JavaPOSWorkingGroup"
         }
     }
+    
+    bintray.user = "javaposworkinggroup"
+    bintray.pkg.version.mavenCentralSync.user = "kuniss"
+}
+
+if (project.plugins.hasPlugin('maven')) 
+{ // evaluates only at development environment, not at travis-ci.org
+
+	artifacts {
+		archives jar
+	}
+	
+	uploadArchives {
+	    repositories {
+	        mavenDeployer {
+	            repository(url: "file:$localTestFileRepositoryDir")
+	            pom.artifactId = artifactName
+	            pom.groupId = groupId
+	            pom.version = version
+	        }
+	    }
+	}
+
 }
