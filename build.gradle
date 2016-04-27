@@ -25,7 +25,7 @@ def artifactName = 'javapos'
 def groupId='org.javapos'
 def uposVersion = '1.8'
 def jclVersion = '2.2.0'
-version="${uposVersion}.0" // the last part after dot is the build/release version
+version="${uposVersion}.2" // the last part after dot is the build/release version
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -47,8 +47,8 @@ configurations {
 }
 
 dependencies {
-	javaposProjects ("org.javapos:javapos-contracts:$version") { transitive = false } 
-	javaposProjects ("org.javapos:javapos-controls:$version") { transitive = false }
+	javaposProjects ("org.javapos:javapos-contracts:$uposVersion.2") { transitive = false } 
+	javaposProjects ("org.javapos:javapos-controls:$uposVersion.0") { transitive = false }
 	javaposProjects ("org.javapos:javapos-config-loader:$jclVersion") { transitive = false }
 }
 
