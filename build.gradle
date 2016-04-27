@@ -23,7 +23,7 @@ task wrapper(type: Wrapper) {
 
 def artifactName = 'javapos'
 def groupId='org.javapos'
-def uposVersion = '1.6'
+def uposVersion = '1.7'
 def jclVersion = '2.2.0'
 def version="${uposVersion}.0" // the last part after dot is the build/release version
 
