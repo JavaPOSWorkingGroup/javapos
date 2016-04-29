@@ -24,8 +24,12 @@ task wrapper(type: Wrapper) {
 def artifactName = 'javapos'
 def groupId='org.javapos'
 def uposVersion = '1.11'
+version="${uposVersion}.2" // the last part after dot is the build/release version
+
+// dependency versions
+def javaposContractsVersion = "$uposVersion.0"
+def javaposControlsVersion  = "$uposVersion.0"
 def jclVersion = '2.2.0'
-version="${uposVersion}.0" // the last part after dot is the build/release version
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -44,12 +48,17 @@ repositories {
 
 configurations {
 	javaposProjects
+	javaposSources
 }
 
 dependencies {
-	javaposProjects ("org.javapos:javapos-contracts:$uposVersion.0") { transitive = false } 
-	javaposProjects ("org.javapos:javapos-controls:$uposVersion.0") { transitive = false }
+	javaposProjects ("org.javapos:javapos-contracts:$javaposContractsVersion") { transitive = false } 
+	javaposProjects ("org.javapos:javapos-controls:$javaposControlsVersion") { transitive = false }
 	javaposProjects ("org.javapos:javapos-config-loader:$jclVersion") { transitive = false }
+	
+	javaposSources ("org.javapos:javapos-contracts:$javaposContractsVersion:sources") { transitive = false } 
+	javaposSources ("org.javapos:javapos-controls:$javaposControlsVersion:sources") { transitive = false }
+	javaposSources ("org.javapos:javapos-config-loader:$jclVersion:sources") { transitive = false }
 }
 
 
@@ -66,19 +75,31 @@ eclipse.classpath {
 	containers "org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-$sourceCompatibility"
 }
 
-jar {
-	baseName = artifactName
-	manifest {
+def javaposManifest = 	manifest {
         attributes('Specification-Title': 'UnifiedPOS Standard',
 				   'Specification-Vendor': 'UnifiedPOS Committee',
                    'Specification-Version': uposVersion,
                    'Implementation-Title': 'JavaPOS Library (Contracts, Controls, JCL)',
 				   'Implementation-Vendor': 'github.com/JavaPOSWorkingGroup',
                    'Implementation-Version': version)
-    }
+}
+
+jar {
+	baseName = artifactName
+	manifest = javaposManifest
     
     duplicatesStrategy = DuplicatesStrategy.FAIL
 	configurations.javaposProjects.each {
+		from(zipTree(it)) {
+			exclude 'META-INF/**'
+		}
+	}
+}
+
+sourceJar {
+	manifest = javaposManifest
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+	configurations.javaposSources.each {
 		from(zipTree(it)) {
 			exclude 'META-INF/**'
 		}
