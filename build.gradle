@@ -12,6 +12,16 @@ plugins {
     id 'com.github.oehme.sobula.bintray-release' version '0.6.7'
 }
 
+ext.githubProjectUrl = 'https://github.com/JavaPOSWorkingGroup/javapos'
+ext.travisProjectUrl = 'https://travis-ci.org/JavaPOSWorkingGroup/javapos'
+
+buildScan {
+    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
+    licenseAgree = 'yes'
+
+	apply from: 'buildScan.gradle'
+}
+
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.11'
 }
