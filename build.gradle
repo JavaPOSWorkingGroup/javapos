@@ -35,12 +35,12 @@ task wrapper(type: Wrapper) {
 def artifactName = 'javapos'
 def groupId='org.javapos'
 def uposVersion = '1.14'
-version="${uposVersion}.1" // the last part after dot is the build/release version
+version="${uposVersion}.2" // the last part after dot is the build/release version
 
 // dependency versions
-def javaposContractsVersion = "$uposVersion.1"
-def javaposControlsVersion  = "$uposVersion.0"
-def jclVersion = '2.2.0'
+def javaposContractsVersion = "$uposVersion.3"
+def javaposControlsVersion  = "$uposVersion.1"
+def jclVersion = '2.3.1'
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -98,6 +98,9 @@ def javaposManifest = 	manifest {
 jar {
 	baseName = artifactName
 	manifest = javaposManifest
+
+	inputs.property 'version', version
+	inputs.property 'uposVersion', uposVersion
     
     duplicatesStrategy = DuplicatesStrategy.FAIL
 	configurations.javaposProjects.each {
