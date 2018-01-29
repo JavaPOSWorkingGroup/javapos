@@ -1,4 +1,5 @@
-# JavaPOS
+# JavaPOS [![Build Status](https://travis-ci.org/JavaPOSWorkingGroup/javapos.svg?branch=master)](https://travis-ci.org/JavaPOSWorkingGroup/javapos) [![Download](https://api.bintray.com/packages/javaposworkinggroup/maven/javapos/images/download.svg) ](https://bintray.com/javaposworkinggroup/maven/javapos/_latestVersion)
+
 The UnifiedPOS reference implementation for Java provided by UnifiedPOS committee members.
 
 Use this library, if your are implementing JavaPOS device services or an JavaPOS application using the [reference implementation of device controls](https://github.com/JavaPOSWorkingGroup/javapos-controls) provided by this group (instead of using your own). In that case this library is valid to be deployed to production environments too.
