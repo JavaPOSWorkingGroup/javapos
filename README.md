@@ -1,3 +1,5 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/JavaPOSWorkingGroup/javapos)
+
 # JavaPOS [![Build Status](https://travis-ci.org/JavaPOSWorkingGroup/javapos.svg?branch=master)](https://travis-ci.org/JavaPOSWorkingGroup/javapos) [![Download](https://api.bintray.com/packages/javaposworkinggroup/maven/javapos/images/download.svg) ](https://bintray.com/javaposworkinggroup/maven/javapos/_latestVersion)
 
 The UnifiedPOS reference implementation for Java provided by UnifiedPOS committee members.
