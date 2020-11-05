@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 plugins {
-    id 'com.gradle.build-scan' version '1.9'
+    id 'com.gradle.build-scan' version '3.3.1'
 	id 'java'
 	id 'eclipse'
 //  id 'maven' // comment this in and the next line out for populating to a local Maven repository for testing purposes
@@ -17,13 +17,13 @@ ext.githubProjectUrl = 'https://github.com/JavaPOSWorkingGroup/javapos'
 ext.travisProjectUrl = 'https://travis-ci.org/JavaPOSWorkingGroup/javapos'
 
 buildScan {
-    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
-    licenseAgree = 'yes'
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
 
 	apply from: 'buildScan.gradle'
 }
 
-task wrapper(type: Wrapper) {
+wrapper {
 	gradleVersion = '5.6.1'
 }
 
