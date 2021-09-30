@@ -15,8 +15,6 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
-ext.githubProjectUrl = 'https://github.com/JavaPOSWorkingGroup/javapos'
-
 wrapper {
 	gradleVersion = '7.1.1'
 }
@@ -88,11 +86,11 @@ def javaposManifest = 	manifest {
 }
 
 jar {
-	baseName = artifactName
+	archiveBaseName = artifactName
 	manifest = javaposManifest
 
-	inputs.property 'version', version
-	inputs.property 'uposVersion', uposVersion
+    // ensure jar is rebuild in case project version has changed
+	inputs.property 'version', project.version 
     
     duplicatesStrategy = DuplicatesStrategy.FAIL
 	configurations.javaposProjects.each {
