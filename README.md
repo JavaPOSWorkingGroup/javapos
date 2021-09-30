@@ -1,4 +1,4 @@
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/JavaPOSWorkingGroup/javapos) [![Build Status](https://github.com/JavaPOSWorkingGroup/javapos/workflows/Build/badge.svg)](https://github.com/JavaPOSWorkingGroup/javapos/actions) [![Bintray](https://api.bintray.com/packages/javaposworkinggroup/maven/javapos/images/download.svg) ](https://bintray.com/javaposworkinggroup/maven/javapos/_latestVersion) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.javapos/javapos/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.javapos/javapos/)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/JavaPOSWorkingGroup/javapos) [![Build Status](https://github.com/JavaPOSWorkingGroup/javapos/workflows/Build/badge.svg)](https://github.com/JavaPOSWorkingGroup/javapos/actions) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.javapos/javapos/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.javapos/javapos/)
 
 # JavaPOS 
 
@@ -8,4 +8,4 @@ Use this library, if your are implementing JavaPOS device services or an JavaPOS
 
 If you have implemented your own version of device controls use the both libraries [javapos-contracts](https://github.com/JavaPOSWorkingGroup/javapos-contracts) and [javapos-config-loader](https://github.com/JavaPOSWorkingGroup/javapos-config-loader) instead of this one to avoid class ambiguities on your classpath.
 
-NOTE: The documentation shown here in the past about project evolvment has been moved to a [Wiki page](https://github.com/JavaPOSWorkingGroup/javapos/wiki/Migrating-to-And-Joining-All-Sources-At-GitHub). 
+NOTE: The documentation shown here in the past about project evolving has been moved to a [Wiki page](https://github.com/JavaPOSWorkingGroup/javapos/wiki/Migrating-to-And-Joining-All-Sources-At-GitHub). 
