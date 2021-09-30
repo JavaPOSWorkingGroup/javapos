@@ -1,10 +1,8 @@
-name: Build
+name: Release
 
 on:
-  push:
-    branches: 
-      - master
-  pull_request:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -20,17 +18,14 @@ jobs:
       - id: get_version
         name: Get Version
         uses: battila7/get-version-action@v2
-      - name: Build
-        uses: eskatos/gradle-command-action@v1
-        with:
-           arguments: build
-           dependencies-cache-enabled: true
-      - name: Try signing
+      - name: Release
         uses: eskatos/gradle-command-action@v1
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
         with: 
-          arguments: signMavenJavaPublication
+          arguments: publishToSonatype closeSonatypeStagingRepository
+          # when release build is settled, switch to: arguments: publishToSonatype closeAndReleaseSonatypeStagingRepository
           dependencies-cache-enabled: true
-           
