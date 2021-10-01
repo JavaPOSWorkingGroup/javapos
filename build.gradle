@@ -43,6 +43,11 @@ sourceCompatibility = 8 // not really need, no compilation at all; but documenta
 repositories {
     mavenCentral()
     
+    // for resolving snapshots from MavenCentral
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+
     if (!System.getenv('CI')) {
         mavenLocal()
     }
