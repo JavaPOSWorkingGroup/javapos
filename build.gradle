@@ -30,9 +30,9 @@ def uposVersion = '1.14'
 version="${uposVersion}.3-SNAPSHOT" // the last part after dot is the build/release version
 
 // dependency versions
-def javaposContractsVersion = "$uposVersion.3"
-def javaposControlsVersion  = "$uposVersion.1"
-def jclVersion = '2.3.1'
+def javaposContractsVersion = "$uposVersion.4-SNAPSHOT"
+def javaposControlsVersion  = "$uposVersion.2-SNAPSHOT"
+def jclVersion = '3.0.0-SNAPSHOT'
 
 sourceCompatibility = 8 // not really need, no compilation at all; but documentation reason
 
@@ -43,11 +43,8 @@ sourceCompatibility = 8 // not really need, no compilation at all; but documenta
 repositories {
     mavenCentral()
     
-    if (!System.getenv('CI') && project.hasProperty('localMavenRepo'))
-    { // evaluates only at development environment, not at CI
-        maven {
-            url "file:$localMavenRepo" // must be defined in gradle.properties
-        }
+    if (!System.getenv('CI')) {
+        mavenLocal()
     }
 }
 
@@ -85,29 +82,66 @@ def javaposManifest = 	manifest {
                    'Implementation-Version': version)
 }
 
+def changelogFile = file('build/CHANGELOG.md')
+task createChangelog {
+    group = 'build'
+    description = 'creates CHANGELOG.md, listing incoprorated JavaPOS libraries'
+    
+    // ensure jar is rebuild in case project version has changed
+    inputs.property 'javaposContractsVersion', javaposContractsVersion 
+    inputs.property 'javaposControlsVersion', javaposControlsVersion 
+    inputs.property 'jclVersion', jclVersion 
+
+    doLast {
+        changelogFile.text = 
+"""\
+# JavaPOS Library $version
+
+Incorporates sub library versions
+
+- javapos-contracts-$javaposContractsVersion
+- javapos-controls-$javaposControlsVersion
+- javapos-config-loader-$jclVersion
+"""
+    }
+}
+
+def jarContentFrom = { configuration -> 
+    copySpec {
+        configuration.each {
+            def dependencyName = it.name.replace('.jar', '')
+            from(zipTree(it)) {
+                exclude 'META-INF/MANIFEST.MF'
+                rename 'CHANGELOG.md', "${dependencyName}.CHANGELOG.md" 
+            }
+        }
+        
+        from (changelogFile) {
+            into 'META-INF' 
+        }
+    }
+}
+
 jar {
 	archiveBaseName = artifactName
 	manifest = javaposManifest
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+	
+	dependsOn createChangelog
 
     // ensure jar is rebuild in case project version has changed
 	inputs.property 'version', project.version 
-    
-    duplicatesStrategy = DuplicatesStrategy.FAIL
-	configurations.javaposProjects.each {
-		from(zipTree(it)) {
-			exclude 'META-INF/**'
-		}
-	}
+
+    with jarContentFrom(configurations.javaposProjects)
 }
 
 sourcesJar {
 	manifest = javaposManifest
     duplicatesStrategy = DuplicatesStrategy.FAIL
-	configurations.javaposSources.each {
-		from(zipTree(it)) {
-			exclude 'META-INF/**'
-		}
-	}
+
+    dependsOn createChangelog
+    
+    with jarContentFrom(configurations.javaposSources)
 }
 
 
