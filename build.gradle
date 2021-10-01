@@ -49,14 +49,14 @@ repositories {
 }
 
 configurations {
-	javaposProjects
+	javaposLibs
 	javaposSources
 }
 
 dependencies {
-	javaposProjects ("org.javapos:javapos-contracts:$javaposContractsVersion") { transitive = false } 
-	javaposProjects ("org.javapos:javapos-controls:$javaposControlsVersion") { transitive = false }
-	javaposProjects ("org.javapos:javapos-config-loader:$jclVersion") { transitive = false }
+	javaposLibs ("org.javapos:javapos-contracts:$javaposContractsVersion") { transitive = false } 
+	javaposLibs ("org.javapos:javapos-controls:$javaposControlsVersion") { transitive = false }
+	javaposLibs ("org.javapos:javapos-config-loader:$jclVersion") { transitive = false }
 	
 	javaposSources ("org.javapos:javapos-contracts:$javaposContractsVersion:sources") { transitive = false } 
 	javaposSources ("org.javapos:javapos-controls:$javaposControlsVersion:sources") { transitive = false }
@@ -93,6 +93,7 @@ task createChangelog {
     inputs.property 'jclVersion', jclVersion 
 
     doLast {
+        changelogFile.parentFile.mkdirs()
         changelogFile.text = 
 """\
 # JavaPOS Library $version
@@ -132,7 +133,7 @@ jar {
     // ensure jar is rebuild in case project version has changed
 	inputs.property 'version', project.version 
 
-    with jarContentFrom(configurations.javaposProjects)
+    with jarContentFrom(configurations.javaposLibs)
 }
 
 sourcesJar {
