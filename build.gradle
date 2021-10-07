@@ -103,7 +103,7 @@ task createChangelog {
 """\
 # JavaPOS Library $version
 
-Incorporates sub library versions
+Incorporates sub component versions
 
 - javapos-contracts-$javaposContractsVersion
 - javapos-controls-$javaposControlsVersion
