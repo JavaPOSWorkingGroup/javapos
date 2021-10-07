@@ -4,7 +4,7 @@
 // JavaPOS Contracts, JavaPOS Controls, and JCL libraries
 // 
 // Author: denis.kuniss@dieboldnixdorf.com
-// s
+// 
 ///////////////////////////////////////////////////////////////////////////////
 
 plugins {
@@ -27,12 +27,12 @@ wrapper {
 def artifactName = 'javapos'
 group='org.javapos'
 def uposVersion = '1.14'
-version="${uposVersion}.3-SNAPSHOT" // the last part after dot is the build/release version
+version="${uposVersion}.3" // the last part after dot is the build/release version
 
 // dependency versions
-def javaposContractsVersion = "$uposVersion.4-SNAPSHOT"
-def javaposControlsVersion  = "$uposVersion.2-SNAPSHOT"
-def jclVersion = '3.0.0-SNAPSHOT'
+def javaposContractsVersion = "$uposVersion.4"
+def javaposControlsVersion  = "$uposVersion.2"
+def jclVersion = '3.0.0'
 
 sourceCompatibility = 8 // not really need, no compilation at all; but documentation reason
 
