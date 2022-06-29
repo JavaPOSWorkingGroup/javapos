@@ -46,15 +46,12 @@ repositories {
     mavenCentral()
 	
 	// just for evaluating GH actions variable value - don't forget to remove
-	if (hasProperty('github.event.action'))    
-    	System.out.println("github.event.action: " + getProperty('github.event.action'));
-   	else
-   		System.out.println("no 'github.event.action' project property defined");
+	logger.lifecycle("github.event.action: " + getProperty('github.event.action'))
 
     // for resolving snapshots from MavenCentral if not going for a real release
-    if (!System.getenv('CI') || 
-    	!(hasProperty('github.event.action') && !'released'.equals(getProperty('github.event.action')))) 
+    if (!isReleaseRun()) 
     {
+   		logger.lifecycle("seems not to be a release, so Maven Central snapshot repository is fetched!");
 	    maven {
 	        url 'https://oss.sonatype.org/content/repositories/snapshots'
 	    }
@@ -63,6 +60,10 @@ repositories {
     if (!System.getenv('CI')) {
         mavenLocal()
     }
+}
+
+def boolean isReleaseRun() {
+	return null != findProperty('github.event.action') && 'released'.equals(getProperty('github.event.action')) 
 }
 
 configurations {
