@@ -46,10 +46,11 @@ repositories {
     mavenCentral()
 	
 	// just for evaluating GH actions variable value - don't forget to remove
-	if (hasProperty('github.event.action')    
+	if (hasProperty('github.event.action'))    
     	System.out.println("github.event.action: " + getProperty('github.event.action'));
    	else
    		System.out.println("no 'github.event.action' project property defined");
+
     // for resolving snapshots from MavenCentral if not going for a real release
     if (!System.getenv('CI') || 
     	!(hasProperty('github.event.action') && !'released'.equals(getProperty('github.event.action')))) 
