@@ -45,11 +45,14 @@ sourceCompatibility = 8 // not really need, no compilation at all; but documenta
 repositories {
     mavenCentral()
 	
-	// just for evaluating GH actions variable value - don't forget to remove    
-    System.out.println("github.event.action: " + getProperty('github.event.action')); 
+	// just for evaluating GH actions variable value - don't forget to remove
+	if (hasProperty('github.event.action')    
+    	System.out.println("github.event.action: " + getProperty('github.event.action'));
+   	else
+   		System.out.println("no 'github.event.action' project property defined");
     // for resolving snapshots from MavenCentral if not going for a real release
     if (!System.getenv('CI') || 
-    	(hasProperty('github.event.action') && !'released'.equals(getProperty('github.event.action')))) 
+    	!(hasProperty('github.event.action') && !'released'.equals(getProperty('github.event.action')))) 
     {
 	    maven {
 	        url 'https://oss.sonatype.org/content/repositories/snapshots'
