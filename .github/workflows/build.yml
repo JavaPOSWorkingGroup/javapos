@@ -26,7 +26,7 @@ jobs:
            arguments: dependencyReport build
            dependencies-cache-enabled: true
       - name: Try signing
-        uses: eskatos/gradle-command-action@v1
+        uses: eskatos/gradle-command-action@v2
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
