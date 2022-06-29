@@ -44,10 +44,14 @@ sourceCompatibility = 8 // not really need, no compilation at all; but documenta
 
 repositories {
     mavenCentral()
-    
-    // for resolving snapshots from MavenCentral
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots'
+	
+	// just for evaluating GH actions variable value - don't forget to remove    
+    System.out.println("GITHUB_EVENT_ACTIVITY: " + System.getenv('GITHUB_EVENT_ACTIVITY')); 
+    // for resolving snapshots from MavenCentral if not going for a real release
+    if (!System.getenv('CI') || !'released'.equals(System.getenv('GITHUB_EVENT_ACTIVITY'))) {
+	    maven {
+	        url 'https://oss.sonatype.org/content/repositories/snapshots'
+	    }
     }
 
     if (!System.getenv('CI')) {
