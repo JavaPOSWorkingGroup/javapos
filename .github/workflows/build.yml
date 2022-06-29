@@ -23,7 +23,7 @@ jobs:
       - name: Build
         uses: eskatos/gradle-command-action@v1
         with:
-           arguments: build
+           arguments: dependencyReport build
            dependencies-cache-enabled: true
       - name: Try signing
         uses: eskatos/gradle-command-action@v1
@@ -33,4 +33,9 @@ jobs:
         with: 
           arguments: signMavenJavaPublication
           dependencies-cache-enabled: true
+      - name: Store Dependency Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: dependencies
+          path: "**/build/reports/project/dependencies.txt"
            

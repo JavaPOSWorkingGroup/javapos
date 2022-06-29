@@ -26,6 +26,13 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
         with: 
-          arguments: publishToSonatype closeSonatypeStagingRepository
-          # when release build is settled, switch to: arguments: publishToSonatype closeAndReleaseSonatypeStagingRepository
+          arguments: dependencyReport publishToSonatype closeSonatypeStagingRepository
+          # we do not invoke closeAndReleaseSonatypeStagingRepository to allow a last manual check at the Sonatpye staging area
+          # for getting a chance to drop it in case of mistakes or errors 
           dependencies-cache-enabled: true
+      - name: Store Dependency Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: dependencies
+          path: "**/build/reports/project/dependencies.txt"
+          
