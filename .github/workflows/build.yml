@@ -30,7 +30,7 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
-          ORG_GRADLE_PROJECT_github.event.action: ${{github.event.action}}
+          ORG_GRADLE_PROJECT_githubEventAction: ${{github.event.action}}
         with: 
           arguments: signMavenJavaPublication
           dependencies-cache-enabled: true
