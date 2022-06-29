@@ -46,7 +46,7 @@ repositories {
     mavenCentral()
 	
 	// just for evaluating GH actions variable value - don't forget to remove
-	logger.lifecycle("githubEventAction: " + getProperty('githubEventAction'))
+	logger.lifecycle("github.event.action: " + getProperty('github.event.action'))
 
     // for resolving snapshots from MavenCentral if not going for a real release
     if (!isReleaseRun()) 
@@ -65,7 +65,7 @@ repositories {
 // this gets true if workflow passed environment variable ORG_GRADLE_PROJECT_github.event.action: ${{github.event.action}}
 // and the event action is 'released' (see release.yml)
 def boolean isReleaseRun() {
-	return null != findProperty('githubEventAction') && 'released'.equals(getProperty('githubEventAction')) 
+	return null != findProperty('github.event.action') && 'released'.equals(getProperty('github.event.action')) 
 }
 
 configurations {

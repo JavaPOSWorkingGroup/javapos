@@ -30,8 +30,8 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
-          ORG_GRADLE_PROJECT_githubEventAction: ${{github.event.action}}
         with: 
+          arguments: -Pgithub.event.action=${{github.event.action}}
           arguments: signMavenJavaPublication
           dependencies-cache-enabled: true
       - name: Store Dependency Report
