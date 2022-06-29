@@ -62,6 +62,8 @@ repositories {
     }
 }
 
+// this gets true if workflow passed environment variable ORG_GRADLE_PROJECT_github.event.action: ${{github.event.action}}
+// and the event action is 'released' (see release.yml)
 def boolean isReleaseRun() {
 	return null != findProperty('github.event.action') && 'released'.equals(getProperty('github.event.action')) 
 }
