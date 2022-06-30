@@ -21,14 +21,13 @@ jobs:
         name: Get Version
         uses: battila7/get-version-action@v2
       - name: Build
-        uses: eskatos/gradle-command-action@v1
+        uses: eskatos/gradle-command-action@v2
         with: 
           arguments: |
              -Pgithub.event.action=${{github.event.action}}
              dependencyReport build
-          dependencies-cache-enabled: true
       - name: Try signing
-        uses: eskatos/gradle-command-action@v1
+        uses: eskatos/gradle-command-action@v2
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
@@ -36,7 +35,6 @@ jobs:
           arguments: |
              -Pgithub.event.action=${{github.event.action}}
              signMavenJavaPublication
-          dependencies-cache-enabled: true
       - name: Store Dependency Report
         uses: actions/upload-artifact@v3
         with:
