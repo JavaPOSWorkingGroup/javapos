@@ -1,1 +1,5 @@
 rootProject.name = 'javapos'
+
+plugins {
+    id "com.gradle.enterprise" version "3.10.2"
+}
