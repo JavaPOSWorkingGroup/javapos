@@ -32,9 +32,10 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
-          ORG_GRADLE_PROJECT_github.event.action: ${{github.event.action}}
         with: 
-          arguments: signMavenJavaPublication
+          arguments: |
+             -Pgithub.event.action=${{github.event.action}}
+             signMavenJavaPublication
           dependencies-cache-enabled: true
       - name: Store Dependency Report
         uses: actions/upload-artifact@v3
