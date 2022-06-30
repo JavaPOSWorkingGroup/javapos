@@ -2,7 +2,7 @@ name: Release
 
 on:
   release:
-    types: [published]
+    types: [released, prereleased]
 
 jobs:
   build:
@@ -32,8 +32,8 @@ jobs:
              dependencyReport 
              publishToSonatype 
              closeSonatypeStagingRepository
-             # we do not invoke closeAndReleaseSonatypeStagingRepository to allow a last manual check at the Sonatpye staging area
-             # for getting a chance to drop it in case of mistakes or errors 
+         # we do not invoke closeAndReleaseSonatypeStagingRepository to allow a last manual check at the Sonatpye staging area
+         # for getting a chance to drop it in case of mistakes or errors 
       - name: Store Dependency Report
         uses: actions/upload-artifact@v3
         with:
