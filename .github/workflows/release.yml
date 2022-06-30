@@ -19,18 +19,21 @@ jobs:
         name: Get Version
         uses: battila7/get-version-action@v2
       - name: Release
-        uses: eskatos/gradle-command-action@v1
+        uses: gradle/gradle-build-action@v2
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
           ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
-          ORG_GRADLE_PROJECT_github.event.action: ${{github.event.action}}
         with: 
-          arguments: dependencyReport publishToSonatype closeSonatypeStagingRepository
-          # we do not invoke closeAndReleaseSonatypeStagingRepository to allow a last manual check at the Sonatpye staging area
-          # for getting a chance to drop it in case of mistakes or errors 
-          dependencies-cache-enabled: true
+          arguments:  |
+             -Pgithub.event.action=${{github.event.action}}
+             --scan
+             dependencyReport 
+             publishToSonatype 
+             closeSonatypeStagingRepository
+             # we do not invoke closeAndReleaseSonatypeStagingRepository to allow a last manual check at the Sonatpye staging area
+             # for getting a chance to drop it in case of mistakes or errors 
       - name: Store Dependency Report
         uses: actions/upload-artifact@v3
         with:
