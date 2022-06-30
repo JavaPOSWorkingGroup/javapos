@@ -44,14 +44,17 @@ sourceCompatibility = 8 // not really need, no compilation at all; but documenta
 
 repositories {
     mavenCentral()
-	
-	// just for evaluating GH actions variable value - don't forget to remove
-	logger.lifecycle("github.event.action: " + getProperty('github.event.action'))
+
+	if (null == findProperty('github.event.action'))
+		logger.warn('Project property github.event.action is not defined, so, it cannot be determined whether a release is ongoing.\nTherefore, Maven Central snapshot repository will be fetched!')
+	else	
+		// just for evaluating GH actions variable value - don't forget to remove
+		logger.lifecycle("github.event.action: ${getProperty('github.event.action')}")
 
     // for resolving snapshots from MavenCentral if not going for a real release
     if (!isReleaseRun()) 
     {
-   		logger.lifecycle("seems not to be a release, so Maven Central snapshot repository is fetched!");
+   		logger.warn("Seems not to be a release, so Maven Central snapshot repository is fetched!");
 	    maven {
 	        url 'https://oss.sonatype.org/content/repositories/snapshots'
 	    }
