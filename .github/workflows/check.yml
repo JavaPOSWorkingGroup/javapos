@@ -1,9 +1,8 @@
-name: Build Main
+name: Check PR
 
 on:
-  push:
-    branches: 
-      - master
+  pull_request:
+
 
 jobs:
   build:
@@ -26,16 +25,6 @@ jobs:
              -Pgithub.event.action=${{github.event.action}}
              --scan
              dependencyReport build
-      - name: Try signing
-        uses: gradle/gradle-build-action@v2
-        env:
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_PASSPHRASE }}
-        with: 
-          arguments: |
-             -Pgithub.event.action=${{github.event.action}}
-             --scan
-             signMavenJavaPublication
       - name: Store Dependency Report
         uses: actions/upload-artifact@v3
         with:
