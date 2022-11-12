@@ -1,1 +1,17 @@
+// for enabling Gradle scan at GitHub Actions
+plugins {
+    id("com.gradle.enterprise") version("3.9")
+}
+
 rootProject.name = 'javapos'
+
+// enabling Gradle scan by agreeing to term of service
+gradleEnterprise {
+    if (System.getenv("CI") != null) {
+        buildScan {
+            publishAlways()
+            termsOfServiceUrl = "https://gradle.com/terms-of-service"
+            termsOfServiceAgree = "yes"
+        }
+    }
+}
