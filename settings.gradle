@@ -1,6 +1,6 @@
 // for enabling Gradle scan at GitHub Actions
 plugins {
-    id("com.gradle.enterprise") version("3.9")
+    id("com.gradle.enterprise") version("3.15")
 }
 
 rootProject.name = 'javapos'
