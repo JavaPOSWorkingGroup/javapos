@@ -28,10 +28,10 @@ wrapper {
 def artifactName = 'javapos'
 group='org.javapos'
 def uposVersion = '1.15'
-version="${uposVersion}.1" // the last part after dot is the build/release version
+version="${uposVersion}.2" // the last part after dot is the build/release version
 
 // dependency versions
-def javaposContractsVersion = "$uposVersion.1"
+def javaposContractsVersion = "$uposVersion.2"
 def javaposControlsVersion  = "$uposVersion.0"
 def jclVersion = '3.1.0'
 def xercesVersion = '1.2.3'  // artificial dependency inherited from javapos-config-loader - take over from there
