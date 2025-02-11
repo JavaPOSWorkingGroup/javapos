@@ -1,4 +1,6 @@
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/JavaPOSWorkingGroup/javapos) [![Build Status](https://github.com/JavaPOSWorkingGroup/javapos/workflows/Build/badge.svg)](https://github.com/JavaPOSWorkingGroup/javapos/actions) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.javapos/javapos/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.javapos/javapos/)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/JavaPOSWorkingGroup/javapos) 
+[![CI](https://github.com/JavaPOSWorkingGroup/javapos-config-loader/actions/workflows/build.yml/badge.svg)](https://github.com/JavaPOSWorkingGroup/javapos/actions/workflows/build.yml)
+[![Release Build](https://github.com/JavaPOSWorkingGroup/javapos/actions/workflows/release.yml/badge.svg)](https://github.com/JavaPOSWorkingGroup/javapos/actions/workflows/release.yml)[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.javapos/javapos/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.javapos/javapos/)
 
 # JavaPOS 
 
