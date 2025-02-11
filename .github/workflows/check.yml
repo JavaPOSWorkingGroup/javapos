@@ -5,7 +5,7 @@ on:
 
 jobs:
   javapos-workflow:
-    uses: JavaPOSWorkingGroup/javapos-workflow/.github/workflows/check.yml@v1
+    uses: JavaPOSWorkingGroup/javapos-workflow/.github/workflows/check.yml@v2
     with:
       github-event-action: ${{github.event.action}}
     secrets: inherit
