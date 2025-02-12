@@ -28,10 +28,10 @@ wrapper {
 def artifactName = 'javapos'
 group='org.javapos'
 def uposVersion = '1.15'
-version="${uposVersion}.2" // the last part after dot is the build/release version
+version="${uposVersion}.3" // the last part after dot is the build/release version
 
 // dependency versions
-def javaposContractsVersion = "$uposVersion.2"
+def javaposContractsVersion = "$uposVersion.3"
 def javaposControlsVersion  = "$uposVersion.0"
 def jclVersion = '3.1.0'
 def xercesVersion = '1.2.3'  // artificial dependency inherited from javapos-config-loader - take over from there
@@ -46,7 +46,7 @@ repositories {
     // for resolving snapshots from MavenCentral if not going for a real release
     if (!isReleaseRun()) 
     {
-   		logger.warn("WARN: Seems not to be a release, so Maven Central snapshot repository is fetched!");
+   		logger.warn("WARN: Seems not to be a release, so Maven Central snapshot repository is fetched too!");
 	    maven {
 	        url 'https://oss.sonatype.org/content/repositories/snapshots'
 	    }
