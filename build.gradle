@@ -28,13 +28,12 @@ wrapper {
 def artifactName = 'javapos'
 group='org.javapos'
 def uposVersion = '1.15'
-version="${uposVersion}.3" // the last part after dot is the build/release version
+version="${uposVersion}.4" // the last part after dot is the build/release version
 
 // dependency versions
 def javaposContractsVersion = "$uposVersion.3"
 def javaposControlsVersion  = "$uposVersion.0"
-def jclVersion = '3.1.0'
-def xercesVersion = '1.2.3'  // artificial dependency inherited from javapos-config-loader - take over from there
+def jclVersion = '4.0.1'
 
 ///////////////////////////////////////////////////////////////////////////////
 // Build Dependencies
@@ -73,8 +72,6 @@ configurations {
 }
 
 dependencies {
-    api "xerces:xerces:$xercesVersion" // artificial dependency inherited from javapos-config-loader
-
 	javaposLibs ("org.javapos:javapos-contracts:$javaposContractsVersion") { transitive = false } 
 	javaposLibs ("org.javapos:javapos-controls:$javaposControlsVersion") { transitive = false }
 	javaposLibs ("org.javapos:javapos-config-loader:$jclVersion") { transitive = false }
