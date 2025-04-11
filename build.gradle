@@ -13,10 +13,11 @@ plugins {
 	id 'eclipse'
     id 'maven-publish'
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+	id 'project-report'
 }
 
 wrapper {
-	gradleVersion = '7.1.1'
+	gradleVersion = '8.12.1'
 }
 
 
@@ -34,24 +35,36 @@ def javaposContractsVersion = "$uposVersion.4"
 def javaposControlsVersion  = "$uposVersion.2"
 def jclVersion = '3.0.0'
 
-sourceCompatibility = 8 // not really need, no compilation at all; but documentation reason
-
 ///////////////////////////////////////////////////////////////////////////////
 // Build Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 
 repositories {
     mavenCentral()
-    
-    // for resolving snapshots from MavenCentral
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots'
+
+    // for resolving snapshots from MavenCentral if not going for a real release
+    if (!isReleaseRun()) 
+    {
+   		logger.warn("WARN: Seems not to be a release, so Maven Central snapshot repository is fetched too!");
+	    maven {
+	        url 'https://oss.sonatype.org/content/repositories/snapshots'
+	    }
     }
 
     if (!System.getenv('CI')) {
         mavenLocal()
     }
 }
+
+// this gets true if Github Actions workflow defines github.event.action project variable at Gradle command line
+// AND the event action is 'released' (see release.yml)
+def boolean isReleaseRun() {
+	return System.getenv('CI') && null != findProperty('github.event.action') && 'released'.equals(getProperty('github.event.action')) 
+}
+
+// check whether github.event.action is defined on CI
+if (System.getenv('CI') && null == findProperty('github.event.action'))
+	logger.warn('WARN: Project property github.event.action is not defined, so, it cannot be determined whether a release is ongoing.')
 
 configurations {
 	javaposLibs
@@ -76,9 +89,10 @@ dependencies {
 java {
     withSourcesJar()
     withJavadocJar()
+    sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
-def javaposManifest = 	manifest {
+def javaposManifest = java.manifest {
         attributes('Specification-Title': 'UnifiedPOS Standard',
 				   'Specification-Vendor': 'UnifiedPOS Committee',
                    'Specification-Version': uposVersion,
